@@ -57,9 +57,14 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void changePassword(AppUser user) {
-        AppUser userFromDB = (AppUser) loadUserByUsername(user.getUsername());
-        userFromDB.setPassword(user.getPassword());
+    public boolean changePassword(AppUser user) {
+        try {
+            AppUser userFromDB = (AppUser) loadUserByUsername(user.getUsername());
+            userFromDB.setPassword(user.getPassword());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }
