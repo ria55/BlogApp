@@ -1,6 +1,5 @@
 package app.models;
 
-import app.helpers.DateTimeHelper;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -25,14 +24,13 @@ public class Post {
     @CreationTimestamp
     private LocalDateTime writtenTime;
 
-    @Enumerated//(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private WritingStatus postStatus;
 
     @OneToMany(mappedBy = "postTo")
     private List<Comment> comments;
 
     public Post() {
-        writtenTime = DateTimeHelper.getNow();
         comments = new ArrayList<>();
     }
 

@@ -32,7 +32,6 @@ public class AppUser implements UserDetails {
     private List<Blog> blogs;
 
     public AppUser() {
-        // regTime = DateTimeHelper.getNow();
         blogs = new ArrayList<>();
     }
 

@@ -1,6 +1,5 @@
 package app.models;
 
-import app.helpers.DateTimeHelper;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
@@ -32,9 +31,7 @@ public class Comment {
 
     private boolean isDeleted;
 
-    public Comment() {
-        writtenTime = DateTimeHelper.getNow();
-    }
+    public Comment() {}
 
     public Comment(AppUser author, Post postTo, String text) {
         this();

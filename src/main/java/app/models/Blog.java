@@ -1,6 +1,5 @@
 package app.models;
 
-import app.helpers.DateTimeHelper;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -31,7 +30,6 @@ public class Blog {
     private List<Post> posts;
 
     public Blog() {
-        creationTime = DateTimeHelper.getNow();
         posts = new ArrayList<>();
     }
 
