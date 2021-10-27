@@ -1,6 +1,7 @@
 package app.models;
 
 import app.helpers.DateTimeHelper;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class Blog {
     @ManyToOne
     private BlogPattern pattern;
 
+    @CreationTimestamp
     private LocalDateTime creationTime;
     private boolean isHidden;
 
