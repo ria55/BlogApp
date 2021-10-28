@@ -21,16 +21,12 @@ public class UserController {
 
     @PostMapping("/register")
     public Feedback registerUser(@RequestBody AppUser user) {
-        Feedback feedback;
-
-        try {
-            AppUser registered = service.registerUser(user);
-            feedback = new ObjectBack<>(registered);
-        } catch (Exception e) {
-            feedback = new Feedback(false, HttpStatus.BAD_REQUEST, e.getMessage());
+        AppUser registered = service.register(user);
+        if (registered != null) {
+            return new ObjectBack<>(registered);
         }
 
-        return feedback;
+        return new Feedback(false, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/user")

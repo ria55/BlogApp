@@ -20,8 +20,6 @@ class UserServiceTest {
 
     @Test
     void countUser() {
-        //addTestUsers();
-
         long count = service.countUsers();
         assertEquals(9, count);
     }
@@ -36,15 +34,6 @@ class UserServiceTest {
     void countNonExistingTable() {
         long count = service.count(Feedback.class);
         assertEquals(0, count);
-    }
-
-    private void addTestUsers() {
-        AppUser user = new AppUser("Marcipán", "kiscica", "kiscica", UserRole.ADMIN);
-        AppUser user2 = new AppUser("Kolompér", "kiscica", "kiscica", UserRole.ADMIN);
-        AppUser user3 = new AppUser("Cseresznye", "kiscica", "kiscica", UserRole.ADMIN);
-        service.registerUser(user);
-        service.registerUser(user2);
-        service.registerUser(user3);
     }
 
 }

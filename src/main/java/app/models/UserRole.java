@@ -10,7 +10,7 @@ public enum UserRole {
     UNDEFINED(UserAuth.READ_BLOG),
     USER(UserAuth.READ_BLOG, UserAuth.CREATE, UserAuth.WRITE, UserAuth.MODIFY_SELF, UserAuth.DELETE_SELF),
     MODERATOR(UserAuth.READ_ALL, UserAuth.CREATE,  UserAuth.WRITE, UserAuth.MODIFY_ALL, UserAuth.DELETE_SELF),
-    ADMIN(UserAuth.READ_ALL, UserAuth.CREATE, UserAuth.WRITE, UserAuth.MODIFY_ALL, UserAuth.DELETE_ALL);
+    ADMIN(UserAuth.READ_ALL, UserAuth.CREATE, UserAuth.CREATE_ALL, UserAuth.WRITE, UserAuth.MODIFY_ALL, UserAuth.DELETE_ALL);
 
     private final UserAuth[] AUTHS;
 

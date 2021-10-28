@@ -1,12 +1,23 @@
 package app.controllers;
 
+import app.models.BlogPattern;
 import app.returnModels.Feedback;
+import app.returnModels.ObjectBack;
+import app.services.BlogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class BlogController {
+
+    private BlogService service;
+
+    @Autowired
+    public BlogController(BlogService service) {
+        this.service = service;
+    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/patterns/{name}")
@@ -18,6 +29,18 @@ public class BlogController {
     @GetMapping("/patterns")
     public Feedback listAllPatterns() {
         return new Feedback(false, HttpStatus.BAD_GATEWAY);
+    }
+
+    @PreAuthorize("hasAuthority('CREATE_ALL')")
+    @PostMapping("/patterns")
+    public Feedback addPattern(@RequestBody BlogPattern pattern) {
+        BlogPattern addedPattern = service.addPattern(pattern);
+
+        if (addedPattern != null) {
+            return new ObjectBack<>(addedPattern);
+        }
+
+        return new Feedback(false, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/blogs/{id}")

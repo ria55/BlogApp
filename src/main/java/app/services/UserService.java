@@ -1,11 +1,7 @@
 package app.services;
 
-import app.jpaRepos.UserRepo;
 import app.models.AppUser;
-import app.returnModels.Feedback;
-import app.returnModels.ObjectBack;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,12 +52,20 @@ public class UserService extends ServiceBase implements UserDetailsService {
                 .getResultList();
     }
 
+    public AppUser register(AppUser user) {
+        registerUser(user);
+
+        try {
+            return (AppUser) loadUserByUsername(user.getUsername());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Transactional
-    public AppUser registerUser(AppUser user) {
+    void registerUser(AppUser user) {
         user.setPassword(encoder.encode(user.getPassword()));
         em.persist(user);
-
-        return (AppUser) loadUserByUsername(user.getUsername());
     }
 
     @Transactional
