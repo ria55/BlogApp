@@ -67,4 +67,14 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional
+    public <T> long count(Class<T> aClass) {
+        return em.createQuery(getCountQuery(aClass), Long.class).getSingleResult();
+    }
+
+    private <T> String getCountQuery(Class<T> aClass) {
+        String tableName = aClass.getSimpleName();
+        return "SELECT COUNT(*) FROM " + tableName;
+    }
+
 }

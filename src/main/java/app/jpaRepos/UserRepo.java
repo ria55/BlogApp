@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface UserRepo extends JpaRepository<AppUser, String> {
     //AppUser findAppUserByUsername(String username);
-    List<AppUser> findAllByAccountNonExpiredAndAuthoritiesBetweenAndRegTimeAfter
-    (boolean accountNonExpired, Collection<? extends GrantedAuthority> authorities, Collection<? extends GrantedAuthority> authorities2, LocalDateTime regTime);
+    /*List<AppUser> findAllByAccountNonExpiredAndAuthoritiesBetweenAndRegTimeAfter
+    (boolean accountNonExpired, Collection<? extends GrantedAuthority> authorities, Collection<? extends GrantedAuthority> authorities2, LocalDateTime regTime);*/
 }
