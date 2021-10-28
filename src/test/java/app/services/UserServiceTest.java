@@ -3,6 +3,7 @@ package app.services;
 import app.models.AppUser;
 import app.models.Blog;
 import app.models.UserRole;
+import app.returnModels.Feedback;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,21 +15,27 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class UserServiceTest {
 
-    /* tested count() method from UserService
-        commented because should refactor
-
     @Autowired
     UserService service;
 
     @Test
-    void count() {
+    void countUser() {
         //addTestUsers();
 
-        long count = service.count(AppUser.class);
+        long count = service.countUsers();
         assertEquals(9, count);
+    }
 
-        long count2 = service.count(Blog.class);
-        assertEquals(0, count2);
+    @Test
+    void countBlog() {
+        long count = service.count(Blog.class);
+        assertEquals(0, count);
+    }
+
+    @Test
+    void countNonExistingTable() {
+        long count = service.count(Feedback.class);
+        assertEquals(0, count);
     }
 
     private void addTestUsers() {
@@ -38,6 +45,6 @@ class UserServiceTest {
         service.registerUser(user);
         service.registerUser(user2);
         service.registerUser(user3);
-    }*/
+    }
 
 }

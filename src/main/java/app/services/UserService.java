@@ -14,10 +14,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class UserService implements UserDetailsService {
-
-    @PersistenceContext
-    private EntityManager em;
+public class UserService extends ServiceBase implements UserDetailsService {
 
     private UserRepo userRepo;
 
@@ -67,14 +64,8 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Transactional
-    public <T> long count(Class<T> aClass) {
-        return em.createQuery(getCountQuery(aClass), Long.class).getSingleResult();
-    }
-
-    private <T> String getCountQuery(Class<T> aClass) {
-        String tableName = aClass.getSimpleName();
-        return "SELECT COUNT(*) FROM " + tableName;
+    public long countUsers() {
+        return count(AppUser.class);
     }
 
 }
