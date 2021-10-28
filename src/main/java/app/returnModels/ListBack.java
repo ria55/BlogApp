@@ -15,6 +15,7 @@ public class ListBack<T> extends Feedback {
     }
 
     public ListBack(List<T> list) {
+        super(true, HttpStatus.OK);
         this.list = list;
     }
 
