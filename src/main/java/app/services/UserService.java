@@ -36,6 +36,16 @@ public class UserService extends ServiceBase implements UserDetailsService {
                 .getSingleResult();
     }
 
+    @Transactional
+    protected boolean isUsernameExisting(String username) {
+        try {
+            loadUserByUsername(username);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public Feedback getLoggedInUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -57,14 +67,19 @@ public class UserService extends ServiceBase implements UserDetailsService {
 
     @Transactional
     public Feedback register(AppUser user) {
-        registerUser(user);
+        if (!isUsernameExisting(user.getUsername())) {
+            registerUser(user);
 
-        try {
-            AppUser registered = (AppUser) loadUserByUsername(user.getUsername());
-            return new ObjectBack<>(registered);
-        } catch (Exception e) {
-            return new Feedback(false, HttpStatus.BAD_REQUEST, e.getMessage());
+            try {
+                AppUser registered = (AppUser) loadUserByUsername(user.getUsername());
+                return new ObjectBack<>(registered);
+            } catch (Exception e) {
+                return new Feedback(false, HttpStatus.BAD_REQUEST, e.getMessage());
+            }
         }
+        System.out.println("username taken");
+        return new Feedback(false, HttpStatus.BAD_REQUEST, "username taken");
+
     }
 
     @Transactional
