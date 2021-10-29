@@ -20,7 +20,7 @@ class UserServiceTest {
 
     @Test
     void countUser() {
-        long count = service.countUsers();
+        long count = service.count(AppUser.class);
         assertEquals(9, count);
     }
 

@@ -99,8 +99,4 @@ public class UserService extends ServiceBase implements UserDetailsService {
         }
     }
 
-    public long countUsers() {
-        return count(AppUser.class);
-    }
-
 }

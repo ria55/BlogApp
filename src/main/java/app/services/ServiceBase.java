@@ -13,7 +13,7 @@ public class ServiceBase {
     protected EntityManager em;
 
     @Transactional
-    protected  <T> Long count(Class<T> aClass) {
+    public <T> Long count(Class<T> aClass) {
         try {
             return countRecords(aClass);
         } catch (Exception e) {

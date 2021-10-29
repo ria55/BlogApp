@@ -2,14 +2,12 @@ package app.configurators;
 
 import app.models.AppUser;
 import app.models.UserRole;
-import app.services.ServiceBase;
 import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +27,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void addUsers() {
-        Long userCount = userService.countUsers();
+        Long userCount = userService.count(AppUser.class);
 
         if (shouldAddRecords(userCount)) {
             List<AppUser> users = createUsers();
