@@ -34,13 +34,7 @@ public class BlogController {
     @PreAuthorize("hasAuthority('CREATE_ALL')")
     @PostMapping("/patterns")
     public Feedback addPattern(@RequestBody BlogPattern pattern) {
-        BlogPattern addedPattern = service.addPattern(pattern);
-
-        if (addedPattern != null) {
-            return new ObjectBack<>(addedPattern);
-        }
-
-        return new Feedback(false, HttpStatus.BAD_REQUEST);
+        return service.addPattern(pattern);
     }
 
     @GetMapping("/blogs/{id}")

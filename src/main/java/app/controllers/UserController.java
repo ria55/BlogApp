@@ -21,23 +21,12 @@ public class UserController {
 
     @PostMapping("/register")
     public Feedback registerUser(@RequestBody AppUser user) {
-        AppUser registered = service.register(user);
-        if (registered != null) {
-            return new ObjectBack<>(registered);
-        }
-
-        return new Feedback(false, HttpStatus.BAD_REQUEST);
+        return service.register(user);
     }
 
     @GetMapping("/user")
     public Feedback getLoggedInUser() {
-        AppUser user = service.getLoggedInUser();
-
-        if (user != null) {
-            return new ObjectBack<>(user);
-        }
-
-        return new Feedback(false, HttpStatus.BAD_REQUEST, "no user logged in");
+        return service.getLoggedInUser();
     }
 
     @PutMapping("/user")

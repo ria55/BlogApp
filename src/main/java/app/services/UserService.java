@@ -1,7 +1,10 @@
 package app.services;
 
 import app.models.AppUser;
+import app.returnModels.Feedback;
+import app.returnModels.ObjectBack;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,17 +36,17 @@ public class UserService extends ServiceBase implements UserDetailsService {
                 .getSingleResult();
     }
 
-    public AppUser getLoggedInUser() {
+    public Feedback getLoggedInUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null) {
             Object user = auth.getPrincipal();
             if (user instanceof AppUser) {
-                return (AppUser) user;
+                return new ObjectBack<>((AppUser) user);
             }
         }
 
-        return null;
+        return new Feedback(false, HttpStatus.BAD_REQUEST, "no user logged in");
     }
 
     @Transactional
@@ -52,13 +55,14 @@ public class UserService extends ServiceBase implements UserDetailsService {
                 .getResultList();
     }
 
-    public AppUser register(AppUser user) {
+    public Feedback register(AppUser user) {
         registerUser(user);
 
         try {
-            return (AppUser) loadUserByUsername(user.getUsername());
+            AppUser registered = (AppUser) loadUserByUsername(user.getUsername());
+            return new ObjectBack<>(registered);
         } catch (Exception e) {
-            return null;
+            return new Feedback(false, HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 

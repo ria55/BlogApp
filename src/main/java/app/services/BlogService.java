@@ -1,6 +1,9 @@
 package app.services;
 
 import app.models.BlogPattern;
+import app.returnModels.Feedback;
+import app.returnModels.ObjectBack;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -8,13 +11,13 @@ import javax.transaction.Transactional;
 @Service
 public class BlogService extends ServiceBase {
 
-    public BlogPattern addPattern(BlogPattern pattern) {
+    public Feedback addPattern(BlogPattern pattern) {
         savePattern(pattern);
 
         try {
-            return findPattern(pattern.getName());
+            return new ObjectBack<>(findPattern(pattern.getName()));
         } catch (Exception e) {
-            return null;
+            return new Feedback(false, HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
