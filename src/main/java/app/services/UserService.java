@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -55,6 +58,7 @@ public class UserService extends ServiceBase implements UserDetailsService {
                 .getResultList();
     }
 
+    @Transactional
     public Feedback register(AppUser user) {
         registerUser(user);
 
@@ -67,7 +71,7 @@ public class UserService extends ServiceBase implements UserDetailsService {
     }
 
     @Transactional
-    void registerUser(AppUser user) {
+    public void registerUser(AppUser user) {
         user.setPassword(encoder.encode(user.getPassword()));
         em.persist(user);
     }

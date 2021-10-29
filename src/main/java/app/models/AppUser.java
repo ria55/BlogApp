@@ -35,7 +35,8 @@ public class AppUser implements UserDetails {
         blogs = new ArrayList<>();
     }
 
-    public AppUser(String username, String nickName, String password, UserRole userRole) {
+    public AppUser(String username, String nickName, String password,
+                   UserRole userRole) {
         this();
         this.username = username;
         this.nickName = nickName;

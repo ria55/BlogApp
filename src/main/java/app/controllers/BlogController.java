@@ -53,7 +53,7 @@ public class BlogController {
         return new Feedback(false, HttpStatus.BAD_GATEWAY);
     }
 
-    @GetMapping("/blogs")
+    @GetMapping("/blogs/search")
     public Feedback searchForBlog(
             @RequestParam(value = "blog_creator") String creator,
             @RequestParam("blog_name") String blogName) {

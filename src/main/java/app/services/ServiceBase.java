@@ -12,11 +12,11 @@ public class ServiceBase {
     @PersistenceContext
     protected EntityManager em;
 
-    public <T> long count(Class<T> aClass) {
+    public <T> Long count(Class<T> aClass) {
         try {
             return countRecords(aClass);
         } catch (Exception e) {
-            return 0;
+            return null;
         }
     }
 

@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 @Service
 public class BlogService extends ServiceBase {
 
+    @Transactional
     public Feedback addPattern(BlogPattern pattern) {
         savePattern(pattern);
 

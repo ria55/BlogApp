@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+
 @RestController
 public class UserController {
 
@@ -24,6 +26,7 @@ public class UserController {
         return service.register(user);
     }
 
+    @Transactional
     @GetMapping("/user")
     public Feedback getLoggedInUser() {
         return service.getLoggedInUser();
