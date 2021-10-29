@@ -12,7 +12,8 @@ public class ServiceBase {
     @PersistenceContext
     protected EntityManager em;
 
-    public <T> Long count(Class<T> aClass) {
+    @Transactional
+    protected  <T> Long count(Class<T> aClass) {
         try {
             return countRecords(aClass);
         } catch (Exception e) {

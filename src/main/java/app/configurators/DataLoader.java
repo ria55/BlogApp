@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class DataLoader extends ServiceBase implements ApplicationRunner {
+public class DataLoader implements ApplicationRunner {
 
     private UserService userService;
 
@@ -29,7 +29,7 @@ public class DataLoader extends ServiceBase implements ApplicationRunner {
     }
 
     private void addUsers() {
-        Long userCount = count(AppUser.class);
+        Long userCount = userService.countUsers();
 
         if (shouldAddRecords(userCount)) {
             List<AppUser> users = createUsers();
