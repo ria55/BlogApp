@@ -22,7 +22,7 @@ public enum UserRole {
         List<SimpleGrantedAuthority> auths = new ArrayList<>();
 
         for (UserAuth auth : AUTHS) {
-            auths.add(new SimpleGrantedAuthority(auth.name()));
+            auths.add(new SimpleGrantedAuthority(auth.toString()));
         }
 
         return auths;
