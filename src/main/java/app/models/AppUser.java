@@ -44,8 +44,8 @@ public class AppUser implements UserDetails {
         this.userRole = userRole;
     }
 
-    public AppUser(AppUserDTO appUser) {
-        this(appUser.getUsername(), appUser.getNickname(), appUser.getPassword(), appUser.getRole());
+    public AppUser(AppUserDTO appUser, UserRole role) {
+        this(appUser.getUsername(), appUser.getNickname(), appUser.getPassword(), role);
     }
 
     public String getUsername() {

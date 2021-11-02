@@ -27,7 +27,7 @@ public class UserControllerTest {
 
     @Test
     void register() throws Exception {
-        AppUserDTO newUser = new AppUserDTO("test@gmail.com", "test", "test", UserRole.USER);
+        AppUserDTO newUser = new AppUserDTO("test2@gmail.com", "test2", "test2");
         String body = mapper.writeValueAsString(newUser);
 
         mockMvc.perform(
@@ -80,10 +80,5 @@ public class UserControllerTest {
         long count = service.count(Feedback.class);
         assertEquals(0, count);
     }*/
-
-    private AppUserDTO createTestUser() {
-        return new AppUserDTO("test@gmail.com", "test", "test", UserRole.USER);
-    }
-
 
 }

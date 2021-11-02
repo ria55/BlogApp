@@ -2,6 +2,7 @@ package app.services;
 
 import app.dtos.AppUserDTO;
 import app.models.AppUser;
+import app.models.UserRole;
 import app.returnModels.Feedback;
 import app.returnModels.ObjectBack;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,9 +68,9 @@ public class UserService extends ServiceBase implements UserDetailsService {
     }
 
     @Transactional
-    public Feedback register(AppUserDTO user) {
+    public Feedback registerUser(AppUserDTO user) {
         if (!isUsernameExisting(user.getUsername())) {
-            registerUser(new AppUser(user));
+            registerUser(new AppUser(user, UserRole.USER));
 
             try {
                 AppUser registered = (AppUser) loadUserByUsername(user.getUsername());

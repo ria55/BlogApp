@@ -1,7 +1,6 @@
 package app.controllers;
 
 import app.dtos.AppUserDTO;
-import app.models.AppUser;
 import app.returnModels.Feedback;
 import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class UserController {
 
     @PostMapping("/register")
     public Feedback registerUser(@RequestBody AppUserDTO user) {
-        return service.register(user);
+        return service.registerUser(user);
     }
 
     @GetMapping("/user")

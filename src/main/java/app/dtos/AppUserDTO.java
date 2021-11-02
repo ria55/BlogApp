@@ -8,7 +8,6 @@ public class AppUserDTO {
     private String username;
     private String nickname;
     private String password;
-    private UserRole role;
 
     public AppUserDTO() {}
 
@@ -20,11 +19,6 @@ public class AppUserDTO {
     public AppUserDTO(String username, String nickname, String password) {
         this(username, nickname);
         this.password = password;
-    }
-
-    public AppUserDTO(String username, String nickname, String password, UserRole role) {
-        this(username, nickname, password);
-        this.role = role;
     }
 
     public AppUserDTO(AppUser appUser) {
@@ -53,14 +47,6 @@ public class AppUserDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
     }
 
 }
