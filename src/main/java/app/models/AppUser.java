@@ -1,5 +1,6 @@
 package app.models;
 
+import app.dtos.AppUserDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,13 +36,16 @@ public class AppUser implements UserDetails {
         blogs = new ArrayList<>();
     }
 
-    public AppUser(String username, String nickName, String password,
-                   UserRole userRole) {
+    public AppUser(String username, String nickName, String password, UserRole userRole) {
         this();
         this.username = username;
         this.nickName = nickName;
         this.password = password;
         this.userRole = userRole;
+    }
+
+    public AppUser(AppUserDTO appUser) {
+        this(appUser.getUsername(), appUser.getNickname(), appUser.getPassword(), appUser.getRole());
     }
 
     public String getUsername() {

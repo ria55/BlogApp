@@ -1,22 +1,43 @@
 package app.services;
 
+import app.dtos.AppUserDTO;
+import app.models.UserRole;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = TestConfig.class)
 @AutoConfigureMockMvc
-public class UserServiceTest {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper mapper;
+
+    @Test
+    void register() throws Exception {
+        AppUserDTO newUser = new AppUserDTO("test@gmail.com", "test", "test", UserRole.USER);
+        String body = mapper.writeValueAsString(newUser);
+
+        mockMvc.perform(
+                post("/register")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(body)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 
     @Test
     void getHome() throws Exception {
@@ -60,6 +81,9 @@ public class UserServiceTest {
         assertEquals(0, count);
     }*/
 
+    private AppUserDTO createTestUser() {
+        return new AppUserDTO("test@gmail.com", "test", "test", UserRole.USER);
+    }
 
 
 }

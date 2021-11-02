@@ -1,5 +1,6 @@
 package app.services;
 
+import app.dtos.AppUserDTO;
 import app.models.AppUser;
 import app.returnModels.Feedback;
 import app.returnModels.ObjectBack;
@@ -66,9 +67,9 @@ public class UserService extends ServiceBase implements UserDetailsService {
     }
 
     @Transactional
-    public Feedback register(AppUser user) {
+    public Feedback register(AppUserDTO user) {
         if (!isUsernameExisting(user.getUsername())) {
-            registerUser(user);
+            registerUser(new AppUser(user));
 
             try {
                 AppUser registered = (AppUser) loadUserByUsername(user.getUsername());
