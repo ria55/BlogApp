@@ -1,5 +1,6 @@
 package app.models;
 
+import app.dtos.BlogDTO;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;

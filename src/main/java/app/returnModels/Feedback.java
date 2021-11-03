@@ -11,8 +11,24 @@ public class Feedback {
 
     public Feedback() {}
 
-    public Feedback(String message) {
-        this.message = message;
+    /**
+     * This constructor is only for testing.
+     */
+    public Feedback(String json) {
+        String[] keyValues = json.split(",");
+
+        for (String keyValue : keyValues) {
+            String[] split = keyValue.split(":");
+            String value = split[1].replace("\"", "");
+
+            if (split[0].contains("success")) {
+                success = Boolean.parseBoolean(split[1]);
+            } else if (split[0].contains("status")) {
+                status = HttpStatus.valueOf(value);
+            } else {
+                message = value;
+            }
+        }
     }
 
     public Feedback(boolean success, HttpStatus status) {

@@ -1,4 +1,4 @@
-package app.services;
+package app.testconfigs;
 
 import app.models.AppUser;
 import app.models.UserRole;
@@ -18,8 +18,9 @@ public class TestConfig {
     public UserDetailsService userDetailsService() {
         AppUser user = createUser("user@user.com", "user", UserRole.USER);
         AppUser admin = createUser("admin@admin.com", "admin", UserRole.ADMIN);
+        AppUser adminInDB = createUser("kiscica@gmail.com", "Kiscica", UserRole.ADMIN);
 
-        return new InMemoryUserDetailsManager(Arrays.asList(user, admin));
+        return new InMemoryUserDetailsManager(Arrays.asList(user, admin, adminInDB));
     }
 
     private AppUser createUser(String email, String password, UserRole role) {

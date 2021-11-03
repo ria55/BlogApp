@@ -1,6 +1,7 @@
 package app.services;
 
 import app.dtos.AppUserDTO;
+import app.dtos.PasswordResetDTO;
 import app.models.AppUser;
 import app.models.UserRole;
 import app.returnModels.Feedback;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,21 +50,37 @@ public class UserService extends ServiceBase implements UserDetailsService {
         }
     }
 
-    public Feedback getLoggedInUser() {
+    public AppUser getLoggedInUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null) {
             Object user = auth.getPrincipal();
             if (user instanceof AppUser) {
-                return new ObjectBack<>((AppUser) user);
+                return (AppUser) user;
             }
         }
 
-        return new Feedback(false, HttpStatus.BAD_REQUEST, "no user logged in");
+        return null;
     }
 
     @Transactional
-    public List<AppUser> listAllUsers() {
+    public List<AppUserDTO> listAllUsers() {
+        try {
+            List<AppUser> users = findAllUsers();
+            List<AppUserDTO> usersDTO = new ArrayList<>();
+
+            for (AppUser user : users) {
+                usersDTO.add(new AppUserDTO(user));
+            }
+
+            return usersDTO;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Transactional
+    protected List<AppUser> findAllUsers() {
         return em.createQuery("SELECT user FROM AppUser user", AppUser.class)
                 .getResultList();
     }
@@ -91,10 +109,34 @@ public class UserService extends ServiceBase implements UserDetailsService {
     }
 
     @Transactional
-    public boolean changePassword(AppUser user) {
+    public boolean changeForgottenPassword(PasswordResetDTO pwReset) {
+        try {
+            AppUser userFromDB = (AppUser) loadUserByUsername(pwReset.getUsername());
+            String newPassword = pwReset.getNewPassword();
+            userFromDB.setPassword(encoder.encode(newPassword));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Transactional
+    public boolean changeLoggedInUserPassword(String newPassword) {
+        AppUser user = getLoggedInUser();
+
+        if (user != null) {
+            return changeForgottenPassword(new PasswordResetDTO(user.getUsername(), null, newPassword));
+
+        }
+
+        return false;
+    }
+
+    @Transactional
+    public boolean changeRole(AppUser user, UserRole newRole) {
         try {
             AppUser userFromDB = (AppUser) loadUserByUsername(user.getUsername());
-            userFromDB.setPassword(user.getPassword());
+            userFromDB.setUserRole(newRole);
             return true;
         } catch (Exception e) {
             return false;
