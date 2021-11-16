@@ -1,8 +1,10 @@
 package app.configurators;
 
-import app.dtos.AppUserDTO;
 import app.models.AppUser;
+import app.models.Blog;
+import app.models.BlogPattern;
 import app.models.UserRole;
+import app.services.BlogService;
 import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -16,15 +18,23 @@ import java.util.List;
 public class DataLoader implements ApplicationRunner {
 
     private UserService userService;
+    private BlogService blogService;
 
     @Autowired
-    public DataLoader(UserService userService) {
+    public DataLoader(UserService userService, BlogService blogService) {
         this.userService = userService;
+        this.blogService = blogService;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         addUsers();
+        AppUser user = (AppUser) userService.loadUserByUsername("bogyo@gmail.com");
+
+        addPattern();
+        BlogPattern pattern = blogService.findPattern("Ocean Dream");
+
+        addBlog(user, pattern);
     }
 
     private void addUsers() {
@@ -36,6 +46,24 @@ public class DataLoader implements ApplicationRunner {
             for (AppUser user : users) {
                 userService.registerUser(user);
             }
+        }
+    }
+
+    private void addPattern() {
+        Long patternCount = blogService.count(BlogPattern.class);
+
+        if (shouldAddRecords(patternCount)) {
+            BlogPattern pattern = new BlogPattern("Ocean Dream", "blue", "white", "Arial");
+            blogService.createPattern(pattern);
+        }
+    }
+
+    private void addBlog(AppUser user, BlogPattern pattern) {
+        Long blogCount = blogService.count(Blog.class);
+
+        if (shouldAddRecords(blogCount)) {
+            Blog blog = new Blog(user, "My Little Pony", pattern);
+            blogService.addBlog(blog);
         }
     }
 

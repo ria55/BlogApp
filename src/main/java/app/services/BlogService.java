@@ -25,6 +25,31 @@ public class BlogService extends ServiceBase {
     }
 
     @Transactional
+    public Feedback createPattern(BlogPattern pattern) {
+        boolean success = addPattern(pattern);
+
+        if (success) {
+            BlogPattern added = findPattern(pattern.getName());
+
+            if (added != null) {
+                return new ObjectBack<>(added);
+            }
+        }
+
+        return new Feedback(false, HttpStatus.BAD_GATEWAY);
+    }
+
+    @Transactional
+    protected boolean addPattern(BlogPattern pattern) {
+        try {
+            em.persist(pattern);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Transactional
     public BlogPattern findPattern(String patternName) {
         return em.createQuery("SELECT p FROM BlogPattern p WHERE p.name = :name", BlogPattern.class)
                 .setParameter("name", patternName)
@@ -108,6 +133,11 @@ public class BlogService extends ServiceBase {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Transactional
+    public void addBlog(Blog blog) {
+        em.persist(blog);
     }
 
 }
