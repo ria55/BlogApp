@@ -65,7 +65,7 @@ public class LoginAndRegTest {
 
     @Test
     void getLoggedInUser_withoutLogin() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/use"))
+        MvcResult mvcResult = mockMvc.perform(get("/user"))
                 .andExpect(status().isOk())
                 .andReturn();
 
